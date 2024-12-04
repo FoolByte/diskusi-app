@@ -1,0 +1,182 @@
+.thread-detail {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.thread-content {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.thread-tag {
+  color: var(--gray-color);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--gray-color);
+  width: fit-content;
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+}
+
+.thread-content h1 {
+  margin: 0.5rem 0 1.5rem;
+  font-size: 1.5rem;
+  line-height: 1.4;
+}
+
+.thread-body {
+  color: var(--text-color);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.thread-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.stats-group {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border: none;
+  background: none;
+  color: var(--gray-color);
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+button.stat-item:hover:not(:disabled) {
+  color: var(--primary-color);
+}
+
+button.stat-item.active {
+  color: var(--primary-color);
+}
+
+button.stat-item:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.thread-meta {
+  display: flex;
+  gap: 1rem;
+  color: var(--gray-color);
+}
+
+.thread-author span {
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.comments-section {
+  margin-top: 2rem;
+}
+
+.comment-form {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.comment-form textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: var(--secondary-color);
+}
+
+.btn-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.login-prompt {
+  text-align: center;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.login-prompt a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.thread-author {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.author-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.author-info span:first-child {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.thread-date {
+  font-size: 0.875rem;
+  color: var(--gray-color);
+}
+
+@media (max-width: 640px) {
+  .thread-stats {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .stats-group {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
