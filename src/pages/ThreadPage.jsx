@@ -1,56 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
 import CommentItem from '../components/CommentItem';
 import Loading from '../components/Loading';
-import { fetchWithAuth } from '../utils/api';
+import { asyncReceiveThreadDetail, asyncAddComment, asyncToggleVoteThread, asyncToggleVoteComment } from '../states/threads/action';
 import { postedAt } from '../utils/formatter';
 import '../styles/threadDetail.css';
 
 function ThreadPage() {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-  const [thread, setThread] = useState(null);
+  const thread = useSelector((state) => state.threads.find((t) => t.id === id));
   const [comment, setComment] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
 
   useEffect(() => {
-    const fetchThread = async () => {
-      try {
-        const response = await fetch(`https://forum-api.dicoding.dev/v1/threads/${id}`);
-        const json = await response.json();
-        setThread(json.data.detailThread);
-      } catch (error) {
-        console.error('Error fetching thread:', error);
-      } finally {
-        setIsLoading(false);
-      }
+    const fetchData = async () => {
+      await dispatch(asyncReceiveThreadDetail(id));
+      setIsLoading(false);
     };
-
-    fetchThread();
-  }, [id]);
+    fetchData();
+  }, [id, dispatch]);
 
   const handleComment = async (e) => {
     e.preventDefault();
     setIsSubmittingComment(true);
     try {
-      const response = await fetchWithAuth(`https://forum-api.dicoding.dev/v1/threads/${id}/comments`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ content: comment }),
-      });
-      const json = await response.json();
-      setThread({
-        ...thread,
-        comments: [json.data.comment, ...thread.comments],
-      });
+      await dispatch(asyncAddComment({ threadId: id, content: comment }));
       setComment('');
     } catch (error) {
-      console.error('Error posting comment:', error);
       alert(error.message);
     } finally {
       setIsSubmittingComment(false);
@@ -63,34 +44,10 @@ function ThreadPage() {
       return;
     }
 
-    const oldThread = { ...thread };
-    const userId = auth.id;
-
-    if (voteType === 'up-vote') {
-      if (thread.upVotesBy.includes(userId)) {
-        thread.upVotesBy = thread.upVotesBy.filter((id) => id !== userId);
-        voteType = 'neutral-vote';
-      } else {
-        thread.upVotesBy = [...thread.upVotesBy, userId];
-        thread.downVotesBy = thread.downVotesBy.filter((id) => id !== userId);
-      }
-    } else if (voteType === 'down-vote') {
-      if (thread.downVotesBy.includes(userId)) {
-        thread.downVotesBy = thread.downVotesBy.filter((id) => id !== userId);
-        voteType = 'neutral-vote';
-      } else {
-        thread.downVotesBy = [...thread.downVotesBy, userId];
-        thread.upVotesBy = thread.upVotesBy.filter((id) => id !== userId);
-      }
-    }
-
-    setThread({ ...thread });
-
     try {
-      await fetchWithAuth(`https://forum-api.dicoding.dev/v1/threads/${id}/${voteType}`, { method: 'POST' });
+      await dispatch(asyncToggleVoteThread({ threadId: id, voteType }));
     } catch (error) {
-      setThread(oldThread);
-      alert('Failed to vote thread', error);
+      alert('Failed to vote thread');
     }
   };
 
@@ -100,45 +57,15 @@ function ThreadPage() {
       return;
     }
 
-    const oldComments = [...thread.comments];
-    const commentIndex = oldComments.findIndex((c) => c.id === commentId);
-    const comment = oldComments[commentIndex];
-    const userId = auth.id;
-
-    if (voteType === 'up-vote') {
-      if (comment.upVotesBy.includes(userId)) {
-        comment.upVotesBy = comment.upVotesBy.filter((id) => id !== userId);
-        voteType = 'neutral-vote';
-      } else {
-        comment.upVotesBy = [...comment.upVotesBy, userId];
-        comment.downVotesBy = comment.downVotesBy.filter((id) => id !== userId);
-      }
-    } else if (voteType === 'down-vote') {
-      if (comment.downVotesBy.includes(userId)) {
-        comment.downVotesBy = comment.downVotesBy.filter((id) => id !== userId);
-        voteType = 'neutral-vote';
-      } else {
-        comment.downVotesBy = [...comment.downVotesBy, userId];
-        comment.upVotesBy = comment.upVotesBy.filter((id) => id !== userId);
-      }
-    }
-
-    setThread({ ...thread, comments: oldComments });
-
     try {
-      await fetchWithAuth(`https://forum-api.dicoding.dev/v1/threads/${id}/comments/${commentId}/${voteType}`, { method: 'POST' });
+      await dispatch(asyncToggleVoteComment({ threadId: id, commentId, voteType }));
     } catch (error) {
-      setThread({ ...thread, comments: thread.comments });
-      alert('Failed to vote comment', error);
+      alert('Failed to vote comment');
     }
   };
 
-  if (isLoading) {
+  if (isLoading || !thread) {
     return <Loading />;
-  }
-
-  if (!thread) {
-    return <div>Thread not found</div>;
   }
 
   return (

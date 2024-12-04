@@ -31,7 +31,20 @@ function asyncSetAuthUser({ email, password }) {
       localStorage.setItem('lastEmail', email);
       localStorage.setItem('lastPassword', password);
       localStorage.setItem('token', token);
-      const authUser = { token };
+
+      // Ambil info user dari token
+      const [, payload] = token.split('.');
+      const decodedUser = JSON.parse(atob(payload));
+
+      // Buat object authUser dengan info lengkap
+      const authUser = {
+        token,
+        id: decodedUser.id,
+        name: decodedUser.name,
+        email: decodedUser.email,
+        avatar: decodedUser.avatar || '',
+      };
+
       dispatch(setAuthUser(authUser));
       return true;
     } catch (error) {

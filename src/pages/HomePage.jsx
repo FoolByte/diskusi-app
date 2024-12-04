@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 import ThreadItem from '../components/ThreadItem';
 import Loading from '../components/Loading';
 import { asyncReceiveUsers } from '../states/users/action';
-import { asyncReceiveThreads } from '../states/threads/action';
-import { voteThread } from '../utils/api';
+import { asyncReceiveThreads, asyncToggleVoteThread } from '../states/threads/action';
 import '../styles/home.css';
 
 function HomePage() {
@@ -37,10 +36,12 @@ function HomePage() {
     }
 
     try {
-      await voteThread(threadId, voteType);
-      dispatch(asyncReceiveThreads());
+      const response = await dispatch(asyncToggleVoteThread({ threadId, voteType }));
+      if (!response) {
+        throw new Error('Failed to vote thread');
+      }
     } catch (error) {
-      alert('Failed to vote thread', error);
+      alert(error.message);
     }
   };
 
