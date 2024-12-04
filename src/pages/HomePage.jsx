@@ -36,12 +36,9 @@ function HomePage() {
     }
 
     try {
-      const response = await dispatch(asyncToggleVoteThread({ threadId, voteType }));
-      if (!response) {
-        throw new Error('Failed to vote thread');
-      }
+      await dispatch(asyncToggleVoteThread({ threadId, voteType }));
     } catch (error) {
-      alert(error.message);
+      console.error('Vote error in component:', error);
     }
   };
 

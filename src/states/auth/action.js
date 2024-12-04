@@ -32,11 +32,9 @@ function asyncSetAuthUser({ email, password }) {
       localStorage.setItem('lastPassword', password);
       localStorage.setItem('token', token);
 
-      // Ambil info user dari token
       const [, payload] = token.split('.');
       const decodedUser = JSON.parse(atob(payload));
 
-      // Buat object authUser dengan info lengkap
       const authUser = {
         token,
         id: decodedUser.id,

@@ -145,21 +145,24 @@ function asyncToggleVoteThread({ threadId, voteType }) {
     const { auth } = getState();
     const userId = auth.id;
 
+    // Optimistic update
+    dispatch(voteType === 'up-vote' ? toggleUpvoteThreadActionCreator({ threadId, userId }) : toggleDownvoteThreadActionCreator({ threadId, userId }));
+
     try {
       const response = await fetchWithAuth(`https://forum-api.dicoding.dev/v1/threads/${threadId}/${voteType}`, { method: 'POST' });
+
       const responseJson = await response.json();
 
-      if (responseJson.status === 'success') {
-        if (voteType === 'up-vote') {
-          dispatch(toggleUpvoteThreadActionCreator({ threadId, userId }));
-        } else if (voteType === 'down-vote') {
-          dispatch(toggleDownvoteThreadActionCreator({ threadId, userId }));
-        }
+      // Check response status from the API response JSON
+      if (!responseJson || responseJson.status !== 'success') {
+        throw new Error(responseJson?.message || 'Failed to vote thread');
       }
-      return responseJson;
     } catch (error) {
+      // Rollback if error
+      dispatch(voteType === 'up-vote' ? toggleUpvoteThreadActionCreator({ threadId, userId }) : toggleDownvoteThreadActionCreator({ threadId, userId }));
+
+      console.error('Vote error:', error);
       alert(error.message);
-      return null;
     }
   };
 }
@@ -189,21 +192,19 @@ function asyncToggleVoteComment({ threadId, commentId, voteType }) {
     const { auth } = getState();
     const userId = auth.id;
 
+    // Optimistic update
+    dispatch(voteType === 'up-vote' ? toggleUpvoteCommentActionCreator({ threadId, commentId, userId }) : toggleDownvoteCommentActionCreator({ threadId, commentId, userId }));
+
     try {
       const response = await fetchWithAuth(`https://forum-api.dicoding.dev/v1/threads/${threadId}/comments/${commentId}/${voteType}`, { method: 'POST' });
       const responseJson = await response.json();
 
-      if (responseJson.status === 'success') {
-        if (voteType === 'up-vote') {
-          dispatch(toggleUpvoteCommentActionCreator({ threadId, commentId, userId }));
-        } else if (voteType === 'down-vote') {
-          dispatch(toggleDownvoteCommentActionCreator({ threadId, commentId, userId }));
-        }
+      if (responseJson.status !== 'success') {
+        dispatch(voteType === 'up-vote' ? toggleUpvoteCommentActionCreator({ threadId, commentId, userId }) : toggleDownvoteCommentActionCreator({ threadId, commentId, userId }));
       }
-      return responseJson;
-    } catch (error) {
-      alert(error.message);
-      return null;
+    } catch {
+      dispatch(voteType === 'up-vote' ? toggleUpvoteCommentActionCreator({ threadId, commentId, userId }) : toggleDownvoteCommentActionCreator({ threadId, commentId, userId }));
+      alert('Failed to vote comment');
     }
   };
 }

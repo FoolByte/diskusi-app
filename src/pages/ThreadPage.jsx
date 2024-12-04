@@ -47,7 +47,7 @@ function ThreadPage() {
     try {
       await dispatch(asyncToggleVoteThread({ threadId: id, voteType }));
     } catch (error) {
-      alert('Failed to vote thread');
+      alert('Failed to vote thread', error);
     }
   };
 
@@ -60,7 +60,7 @@ function ThreadPage() {
     try {
       await dispatch(asyncToggleVoteComment({ threadId: id, commentId, voteType }));
     } catch (error) {
-      alert('Failed to vote comment');
+      alert('Failed to vote comment', error);
     }
   };
 
