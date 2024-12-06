@@ -60,7 +60,7 @@ function HomePage() {
       <div className="thread-list">
         <div className="thread-list-header">
           <div className="header-content">
-            <h2>Discussion Threads</h2>
+            <h2>Discussion Threads List</h2>
             <div className="category-filter">
               {categories.map((category) => (
                 <button
