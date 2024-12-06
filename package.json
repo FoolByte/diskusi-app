@@ -12,7 +12,7 @@
     "test": "vitest",
     "e2e": "cypress open",
     "e2e:run": "cypress run",
-    "ci:test": "vitest --no-watch && start-server-and-test dev http://localhost:5173/ e2e"
+    "ci:test": "vitest --no-watch && start-server-and-test dev http://localhost:5173/ 'cypress run'"
   },
   "dependencies": {
     "@eslint/compat": "^1.2.3",
