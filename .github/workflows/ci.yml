@@ -9,13 +9,32 @@ jobs:
   automation-test-job:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [16, 18]
+
     steps:
+      # Checkout source code
       - uses: actions/checkout@v2
+
+      # Setup Node.js environment
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install and test
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Install additional libraries (if needed)
+      - name: Setup additional libraries (optional)
         run: |
-          npm install
-          npm run ci:test
+          sudo apt-get update
+          sudo apt-get install -y libnss3 libgconf-2-4
+
+      # Run unit tests and E2E tests
+      - name: Run ci:test
+        env:
+          CI: true # Set CI environment variable for testing
+        run: npm run ci:test
