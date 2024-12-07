@@ -1,0 +1,71 @@
+[33mcommit dcf161f4fd01d46e748dbd349c0e070d432039e0[m[33m ([m[1;36mHEAD -> [m[1;32mci-cd-test[m[33m, [m[1;31morigin/ci-cd-test[m[33m)[m
+Author: kairuliman <khairuliman738@gmail.com>
+Date:   Fri Dec 6 21:21:09 2024 +0700
+
+    add stories component
+
+[33mcommit 77d5bac13725d13b5d0981fb99b077f6dcff390f[m
+Author: kairuliman <khairuliman738@gmail.com>
+Date:   Fri Dec 6 19:50:37 2024 +0700
+
+    make test pass
+
+[33mcommit 8e475f0224fb2f3a4d4207562be0ba8b950823fe[m
+Author: kairuliman <khairuliman738@gmail.com>
+Date:   Fri Dec 6 19:44:24 2024 +0700
+
+    make test pass
+
+[33mcommit 0a252ceb3dd431a5e8ba39222bb5b1d778ad17a1[m
+Author: kairuliman <khairuliman738@gmail.com>
+Date:   Fri Dec 6 19:23:30 2024 +0700
+
+    make test pass
+
+[33mcommit 589ec5d18376b52fac4cb52cf765e8311f2c7d23[m
+Author: kairuliman <khairuliman738@gmail.com>
+Date:   Fri Dec 6 19:13:58 2024 +0700
+
+    make test error
+
+[33mcommit 9756df709943edf298a7d8130d8533861c955491[m
+Author: kairuliman <khairuliman738@gmail.com>
+Date:   Fri Dec 6 18:59:56 2024 +0700
+
+    add ci action
+
+[33mcommit 5551593489d7df90c8217b517cc4fa6fee0b0566[m
+Author: kairuliman <khairuliman738@gmail.com>
+Date:   Fri Dec 6 18:16:31 2024 +0700
+
+    menambahkan e2e testing
+
+[33mcommit c54580d10a85373ea3eda11f0c65ada2642f140e[m
+Author: kairuliman <khairuliman738@gmail.com>
+Date:   Fri Dec 6 15:56:43 2024 +0700
+
+    menambahkan Automation Testing vitest
+
+[33mcommit 2600e81a327dd6d1665fe2e1699943a28eb671f3[m
+Author: kairuliman <khairuliman738@gmail.com>
+Date:   Wed Dec 4 19:59:32 2024 +0700
+
+    lint fix
+
+[33mcommit 211fd06d84bd54a28251d23df4d8848d1215f236[m
+Author: kairuliman <khairuliman738@gmail.com>
+Date:   Wed Dec 4 19:58:41 2024 +0700
+
+    fix revisi 2
+
+[33mcommit a084230dddd2878591a09542a21f58caf2d6fd80[m
+Author: kairuliman <khairuliman738@gmail.com>
+Date:   Wed Dec 4 19:48:09 2024 +0700
+
+    fix api called
+
+[33mcommit a004e3f1b7c253327bed5ba661a6988b4f8d1ff3[m
+Author: kairuliman <khairuliman738@gmail.com>
+Date:   Wed Dec 4 19:09:46 2024 +0700
+
+    first commit
