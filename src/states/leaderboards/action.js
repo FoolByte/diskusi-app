@@ -1,4 +1,3 @@
-// states/leaderboards/action.js
 const ActionType = {
   RECEIVE_LEADERBOARDS: 'RECEIVE_LEADERBOARDS',
 };
